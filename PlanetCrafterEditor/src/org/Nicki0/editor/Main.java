@@ -10,7 +10,7 @@ public class Main {
 	Window window;
 	Modify modify;
 	public Main() {
-		
+		java.util.Map<String, String> m = org.Nicki0.editor.elements.Object.translateGIdName;
 		window = new Window(this);
 		window.showFileChooser();
 		long timeStamp = System.currentTimeMillis();

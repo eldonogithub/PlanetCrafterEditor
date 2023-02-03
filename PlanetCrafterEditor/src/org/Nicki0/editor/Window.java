@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,7 +39,7 @@ public class Window {
 	JLabel jLabelCoordinates;
 	JLabel jLabelCave;
 	
-	int selectedImage = 1;
+	int selectedImage = 0;
 	Icon[] pictureMap = Map.pictureMap;
 	boolean selectedCave = false;
 	private File selectedFile = new File( System.getProperty("user.home") + "\\AppData\\LocalLow\\MijuGames\\Planet Crafter\\TESTWORLD.json");
@@ -188,7 +189,7 @@ public class Window {
 			}
 		}
 		invStockStr = woIdsToFind.size() + " / " + c.getSize() + "\n";
-		for (String s : map.keySet()) invStockStr = invStockStr + "   " + s + ": " + map.get(s) + "\n";
+		for (String s : map.keySet()) invStockStr = invStockStr + "   " + s + (Object.translateGIdName.get(s) != null?" (" + Object.translateGIdName.get(s) + ")":"") + ": " + map.get(s) + "\n";
 		return invStockStr;
 	}
 	private void initListeners() {
@@ -233,7 +234,7 @@ public class Window {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				String buildingToShow = JOptionPane.showInputDialog("Building to show:"
-						+ "\n  Container(1,2)\n  EscapePod\n  pod\n  Pod4x\n  Teleporter1\n  AutoCrafter\n  EnergyGenerator6\n  OreExtractor3\n  Biodome\n  Drill4\n  Heater5\n  GasExtractor1\n  Beehive2\n  WaterCollector2");
+						+ "\n  Container1\n  Container2\n  EscapePod\n  pod\n  Pod4x\n  Teleporter1\n  AutoCrafter\n  EnergyGenerator6\n  OreExtractor3\n  Biodome\n  Drill4\n  Heater5\n  GasExtractor1\n  Beehive2\n  WaterCollector2\n  ButterflyFarm2\n  TreeSpreader0\n  TreeSpreader1\n  TreeSpreader2\n  GrassSpreader1\n  SeedSpreader1\n  SeedSpreader2\n  ... etc.");
 				if (buildingToShow != null) buildings.showBuildings(Object.allItemsOfType(buildingToShow, modify.getItemList()));
 			}
 		});
@@ -314,7 +315,13 @@ public class Window {
 				case MouseEvent.BUTTON1:
 					Point p = Map.adaptMousePosition(e.getPoint());
 					List<Item> clickedOnBuilding = buildings.objectsAtPosition(p.x, p.y);
-					for (Item i : clickedOnBuilding) System.out.println(i.getGId() + " " + i.getText());
+					
+					for (Item i : clickedOnBuilding) {
+						Container c = modify.getContainerFromID(i.getLiId());
+						String inv = "";
+						if (c != null) inv = getInventoryStock(c.getId()).replaceAll("([0-9]* / [0-9]*\n|   )","").replaceAll("\n", "; ");
+						System.out.println(i.getGId() + " " + i.getText() + inv);
+					}
 					break;
 				case MouseEvent.BUTTON2:
 					// TODO vllt. teleport funktionalität

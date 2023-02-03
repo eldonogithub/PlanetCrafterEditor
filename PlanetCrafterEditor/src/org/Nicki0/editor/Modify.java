@@ -165,6 +165,7 @@ public class Modify {
 		return null;
 	}
 	public Container getContainerFromID(long id) {
+		if (id == 0) return null;
 		for (int i = 0; i < containerList.size(); i++) {
 			if (containerList.get(i).getId() == id) return containerList.get(i);
 		}
@@ -180,7 +181,7 @@ public class Modify {
 		List<String> invStock = new ArrayList<String>();
 		List<String> keys = new ArrayList<String>(map.keySet());
 		Collections.sort(keys, Comparator.comparing(s->s, String.CASE_INSENSITIVE_ORDER));
-		for (String s : keys) invStock.add(s + ": " + map.get(s));
+		for (String s : keys) invStock.add(s + (Object.translateGIdName.get(s) != null?" (" + Object.translateGIdName.get(s) + ")":"") + ": " + map.get(s));
 		return invStock.stream().collect(Collectors.joining("\n", "", ""));
 	}
 }
