@@ -14,27 +14,32 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.Nicki0.editor.Map;
+import org.Nicki0.editor.Window;
 import org.Nicki0.editor.elements.Item;
+import org.Nicki0.editor.elements.Object;
 
 public class Buildings {
+	Window window;
 	JPanel panel;
 	List<List<JLabel>> list;
 	public List<String> gIDsInList = new ArrayList<>();
 	java.util.Map<JLabel, Item> mapLabelToItem;
 	
-	public Buildings(JPanel pJPanel) {
-		panel = pJPanel;
+	public Buildings(Window pWindow) {
+		window = pWindow;
+		panel = window.panel;
 		list = new ArrayList<List<JLabel>>();
 		mapLabelToItem = new HashMap<JLabel, Item>();
 	}
 	
-	public void showBuildings(List<Item> pList) {
+	public void showBuildings(List<Item> pList, String useGId) {
 		if (pList.size() == 0) return;
 		
 		Component[] comps = panel.getComponents();
 		panel.removeAll();
 		
-		URL url = Map.class.getResource("pictures/GId/" + pList.get(0).getGId() + ".png"); 
+		URL url = Map.class.getResource("pictures/GId/" + useGId + ".png"); 
+		if (url == null) url = Map.class.getResource("pictures/GId/" + useGId + ".gif");
 		if (url == null) url = Map.defaultBuildingPicture;
 		Icon picture = new ImageIcon(url);
 		
@@ -56,7 +61,7 @@ public class Buildings {
 		}
 		
 		list.add(elementList);
-		gIDsInList.add(pList.get(0).getGId());
+		gIDsInList.add(useGId);
 		
 		for (int i = 0; i < comps.length; i++) panel.add(comps[i]);
 	}
@@ -74,6 +79,7 @@ public class Buildings {
 				break;
 			}
 		}
+		if (pGId.equalsIgnoreCase(Object.LOOTCRATEGID)) window.switchShowingNotLootedCrates = !window.switchShowingNotLootedCrates;
 	}
 	public List<Item> objectsAtPosition(int px, int py) {
 		List<Item> collidingItems = new ArrayList<Item>();

@@ -9,7 +9,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.io.File;
-import java.util.ArrayList;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,7 +32,7 @@ import org.Nicki0.editor.window.Buildings;
 
 public class Window {
 	JFrame frame;
-	JPanel panel;
+	public JPanel panel;
 	JMenuBar jMenuBar;
 	JMenu[] jMenu;
 	JMenuItem[][] jMenuItem;
@@ -48,6 +49,8 @@ public class Window {
 	Modify modify;
 	Buildings buildings;
 	
+	public boolean switchShowingNotLootedCrates = false;
+	
 	public Window(Main pMain) {
 		main = pMain;
 		
@@ -63,19 +66,20 @@ public class Window {
 		
 		panel = new JPanel(null);
 		
-		buildings = new Buildings(panel);
+		buildings = new Buildings(this);
 		
 		jMenuBar = new JMenuBar();
-		jMenu = new JMenu[3];
+		jMenu = new JMenu[4];
 		for (int i = 0; i < jMenu.length; i++) jMenu[i] = new JMenu();
 		jMenuItem = new JMenuItem[jMenu.length][];
 		jMenuItem[0] = new JMenuItem[3];
-		jMenuItem[1] = new JMenuItem[5];
+		jMenuItem[1] = new JMenuItem[6];
 		jMenuItem[2] = new JMenuItem[2];
+		jMenuItem[3] = new JMenuItem[1];
 		for (int i = 0; i < jMenuItem.length; i++) for (int j = 0; j < jMenuItem[i].length; j++) jMenuItem[i][j] = new JMenuItem();
 		
 		jMenu[0].setText("File");
-		jMenuItem[0][0].setText("Open (deactivated)");
+		//jMenuItem[0][0].setText("Open (deactivated)");
 		jMenuItem[0][1].setText("Save / Export");
 		jMenuItem[0][2].setText("Exit");
 		
@@ -85,12 +89,14 @@ public class Window {
 		jMenuItem[1][2].setText("Show Building / Item");
 		jMenuItem[1][3].setText("Remove Building / Item");
 		jMenuItem[1][4].setText("Inventory Overview");
+		jMenuItem[1][5].setText("Show not looted Crates");
 		
 		jMenu[2].setText("Check");
 		jMenuItem[2][0].setText("Check for double Inventory entries of Items");
 		jMenuItem[2][1].setText("Check for missing containers for inventories");
 		
-		
+		jMenu[3].setText("?");
+		jMenuItem[3][0].setText("Update");
 		
 		jLabelPicture = new JLabel(pictureMap[selectedImage]);
 		jLabelPicture.setSize(jLabelPicture.getIcon().getIconWidth(), jLabelPicture.getIcon().getIconHeight());
@@ -112,6 +118,7 @@ public class Window {
 		for (int i = 0; i < jMenu.length; i++) {
 			jMenuBar.add(jMenu[i]);
 			for (int j = 0; j < jMenuItem[i].length; j++) jMenu[i].add(jMenuItem[i][j]);
+			jMenu[0].remove(jMenuItem[0][0]);
 		}
 		panel.add(jLabelCoordinates);
 		panel.add(jLabelCave);
@@ -235,7 +242,7 @@ public class Window {
 			public void actionPerformed(ActionEvent e) {
 				String buildingToShow = JOptionPane.showInputDialog("Building to show:"
 						+ "\n  Container1\n  Container2\n  EscapePod\n  pod\n  Pod4x\n  Teleporter1\n  AutoCrafter\n  EnergyGenerator6\n  OreExtractor3\n  Biodome\n  Drill4\n  Heater5\n  GasExtractor1\n  Beehive2\n  WaterCollector2\n  ButterflyFarm2\n  TreeSpreader0\n  TreeSpreader1\n  TreeSpreader2\n  GrassSpreader1\n  SeedSpreader1\n  SeedSpreader2\n  ... etc.");
-				if (buildingToShow != null) buildings.showBuildings(Object.allItemsOfType(buildingToShow, modify.getItemList()));
+				if (buildingToShow != null) buildings.showBuildings(Object.allItemsOfType(buildingToShow, modify.getItemList()), buildingToShow);
 			}
 		});
 		// Remove Building / Item
@@ -279,6 +286,21 @@ public class Window {
 				}
 			}
 		});
+		// Show Not Looted Crates
+		jMenuItem[1][5].addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				List<Item> notLootedCratesInWorld = modify.getNotLootedCrates();
+				if (notLootedCratesInWorld.size() == 0) {
+					JOptionPane.showMessageDialog(null, "All Loot Crates looted!");
+					return;
+				}
+				switchShowingNotLootedCrates = !switchShowingNotLootedCrates;
+				if (switchShowingNotLootedCrates) buildings.showBuildings(notLootedCratesInWorld, Object.LOOTCRATEGID);
+				else buildings.removeBuildings("loot crates");
+			}
+		});
 		// Check for Doubles
 		jMenuItem[2][0].addActionListener(new ActionListener() {
 			
@@ -293,6 +315,20 @@ public class Window {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				main.modify.testForInventoryWithoutContainer();
+			}
+		});
+		// Update
+		jMenuItem[3][0].addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				URL url;
+				try {
+					url = new URL("https://github.com/mcnicki2002/PlanetCrafterEditor");
+					JCommands.openWebpage(url);
+				} catch (MalformedURLException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		// Mouse
@@ -320,7 +356,7 @@ public class Window {
 						Container c = modify.getContainerFromID(i.getLiId());
 						String inv = "";
 						if (c != null) inv = getInventoryStock(c.getId()).replaceAll("([0-9]* / [0-9]*\n|   )","").replaceAll("\n", "; ");
-						System.out.println(i.getGId() + " " + i.getText() + inv);
+						System.out.println(i.getGId() + " " + i.getText() + inv + " at Position: " + i.getPositionAsString());
 					}
 					break;
 				case MouseEvent.BUTTON2:

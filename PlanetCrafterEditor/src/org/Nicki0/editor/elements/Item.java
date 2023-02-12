@@ -4,7 +4,7 @@ public class Item {
 	private long id;
 	private String gId;
 	private long liId;
-	private String liGrps; // ????
+	private String liGrps; // Thing mined by ore extractor or created by or autocrafters incubators 
 	private float posX;
 	private float posY;
 	private float posZ;
@@ -35,6 +35,15 @@ public class Item {
 		color = "";
 		text = "";
 		grwth = 0;
+	}
+	public Item(long pId, String pGId, long pLiId, float pPosX, float pPosY, float pPosZ, String pComment) {
+		id = pId;
+		gId = pGId;
+		liId = pLiId;
+		posX = pPosX;
+		posY = pPosY;
+		posZ = pPosZ;
+		text = pComment;
 	}
 	public Item(long pId, String pGId, long pLiId, String pLiGrps, float pPosX, float pPosY, float pPosZ, float pRot1, float pRot2, float pRot3, float pRot4, String pWear, int[] pPlns, String pColor, String pText, int pGrwth) {
 		id = pId;
@@ -81,7 +90,8 @@ public class Item {
 	public String getGId() {return gId;}
 	public long getLiId() {return liId;}
 	public float posX() {return posX;}
-	public float poxY() {return posY;}
+	public float posY() {return posY;}
 	public float posZ() {return posZ;}
 	public String getText() {return text;}
+	public String getPositionAsString() {return "(" + posX() + ":" + posY() + ":" + posZ() + ")";}
 }

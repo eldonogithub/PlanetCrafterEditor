@@ -5,11 +5,15 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Main {
+	/**
+	 * Version 0.2
+	 * Change: Shows not looted crates
+	 */
 	static Main main;
 	
 	Window window;
 	Modify modify;
-	public Main() {
+	public Main() {		
 		java.util.Map<String, String> m = org.Nicki0.editor.elements.Object.translateGIdName;
 		window = new Window(this);
 		window.showFileChooser();

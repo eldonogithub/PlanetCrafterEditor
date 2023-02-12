@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.Nicki0.editor.elements.Container;
@@ -31,6 +32,8 @@ public class Modify {
 	
 	public int inventoryContainer;
 	public int equipmentContainer;
+	
+	private List<Item> notLootedCratesInWorld = null;
 
 	public Modify(Ti pTi, PlayerAttributes pPlayerAttributes, List<Item> pItemList, List<Container> pContainerList, Statistics pStatistics, List<Message> pMessageList, List<StoryEvent> pStoryEventList, Settings pSettings, Light pLight) {
 		ti = pTi;
@@ -49,10 +52,10 @@ public class Modify {
 	public String buildString() {
 		long timeNeeded = System.currentTimeMillis();
 		String itemBuildStr = formatListItem(itemList);
-		System.out.println("items in " + (System.currentTimeMillis() - timeNeeded));
+		System.out.println("items in " + (System.currentTimeMillis() - timeNeeded) + "ms");
 		timeNeeded = System.currentTimeMillis();
 		String containerBuildStr = formatListContainer(containerList);
-		System.out.println("containers in " + (System.currentTimeMillis() - timeNeeded));
+		System.out.println("containers in " + (System.currentTimeMillis() - timeNeeded) + "ms");
 		
 		return "\r" + ti.toString()
 		+ "\r@\r" + playerAttributes.toString()
@@ -89,7 +92,7 @@ public class Modify {
 		return str;
 	}
 	
-	public void testForDouble() {
+	public void testForDouble() { // TODO count in HashMap -> O(n) instead of O(n^2)
 		long timeNeeded = System.currentTimeMillis();
 		for (int currentItem = 0; currentItem < itemList.size(); currentItem++) {
 			long id = itemList.get(currentItem).getId();
@@ -103,7 +106,7 @@ public class Modify {
 			}
 			// Falls in mehr als einem Inventar einmal:
 			if (allContainerWithDoubledItem.size() > 1) {
-				System.out.println(itemList.get(currentItem).getGId() + " mit ID " + id + " ist " + allContainerWithDoubledItem.size() + " Mal in Inventaren!");
+				System.out.println(itemList.get(currentItem).getGId() + " with ID " + id + " is " + allContainerWithDoubledItem.size() + " times in inventories!");
 				for (int invWDI : allContainerWithDoubledItem) {
 					for (int i = containerList.get(invWDI).getWoIds().size()-1; i >= 0; i--) {
 						if (containerList.get(invWDI).getWoIds().get(i) == id) containerList.get(invWDI).getWoIds().remove(i);
@@ -120,7 +123,7 @@ public class Modify {
 					}
 				}
 				if (!isInList && !itemList.get(currentItem).isOnMap() && itemList.get(currentItem).getId() > 200000000) {
-					System.out.println("Item ohne Container auﬂerhalb der Map und nicht von der Map aufgehoben: " + itemList.get(currentItem).toString());
+					System.out.println("Item without Container outside the Map and not picked up from the map: " + itemList.get(currentItem).toString());
 				}
 			}
 		}
@@ -142,7 +145,7 @@ public class Modify {
 				for (int i = 0; i < Object.INVENTORIES_WITHOUT_CONTAINER.length; i++) {
 					if (currentContainerID == Object.INVENTORIES_WITHOUT_CONTAINER[i]) notFromGame = false;
 				}
-				if (notFromGame) System.out.println("Folgendes Inventar hat keinen Container: " + containerList.get(currentContainer).toString());
+				if (notFromGame) System.out.println("This Inventory has no Container: " + containerList.get(currentContainer).toString());
 			}
 		}
 		System.out.println("Inventory without Container - Done in " + (System.currentTimeMillis() - neededTime) + "ms");
@@ -172,7 +175,7 @@ public class Modify {
 		return null;
 	}
 	public String getInventoryStock() {
-		java.util.Map<String, Integer> map = new HashMap<String, Integer>();
+		Map<String, Integer> map = new HashMap<String, Integer>();
 		for (Item item : itemList) {
 			String gId = item.getGId();
 			if (map.get(gId) == null) map.put(gId, 0);
@@ -183,6 +186,33 @@ public class Modify {
 		Collections.sort(keys, Comparator.comparing(s->s, String.CASE_INSENSITIVE_ORDER));
 		for (String s : keys) invStock.add(s + (Object.translateGIdName.get(s) != null?" (" + Object.translateGIdName.get(s) + ")":"") + ": " + map.get(s));
 		return invStock.stream().collect(Collectors.joining("\n", "", ""));
+	}
+	public List<Item> getNotLootedCrates() {
+		if (notLootedCratesInWorld != null) return notLootedCratesInWorld;
+		List<Item> allCratesInWorldList = Object.createAllContainersInWorldList();
+		Map<Long, Integer> idToIndex = new HashMap<>();
+		List<Integer> indexToBeRemoved = new ArrayList<Integer>();
+		for (int i = 0; i < allCratesInWorldList.size(); i++) idToIndex.put(allCratesInWorldList.get(i).getId(), i);
+		for (int i = 0; i < itemList.size(); i++) {
+			var tmpid = idToIndex.get(itemList.get(i).getId());
+			int id = 0;
+			if (tmpid != null) id = tmpid; else continue;
+			// crate exists is save file => was deconstructed => was empty => looted
+			indexToBeRemoved.add(id);
+		}
+		for (int i = 0; i < containerList.size(); i++) {
+			var tmpid = idToIndex.get(containerList.get(i).getId());
+			int id = 0;
+			if (tmpid != null) id = tmpid; else continue;
+			// container exists in save file && is empty => looted but not deconstructed => not important to show
+			if (containerList.get(i).getWoIds().size() == 0) indexToBeRemoved.add(id);
+		}
+		indexToBeRemoved = indexToBeRemoved.stream().distinct().collect(Collectors.toList());
+		Collections.sort(indexToBeRemoved);
+		Collections.reverse(indexToBeRemoved);
+		for (int i : indexToBeRemoved) {allCratesInWorldList.remove(i);}
+		notLootedCratesInWorld = allCratesInWorldList;
+		return notLootedCratesInWorld;
 	}
 }
 
