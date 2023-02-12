@@ -21,7 +21,7 @@ New (V0.2):
 
 __Use this tool on your own risk__. Make backups of your save files ("C:\Users\%Username%\AppData\LocalLow\MijuGames\Planet Crafter") before using this tool eventhough there should not be any writing in any existing file. New Files are named __(Old filename)\_modified\_(ms since 1970).json__
 
-[Download the tool](./Compiled Versions) (and install Java) and run it with the "start.bat" or over the command line: "java -jar PlanetCrafterEditor.jar".
+[Download the tool](./Compiled_Versions/) (and install Java) and run it with the "start.bat" or over the command line: "java -jar PlanetCrafterEditor.jar".
 
 
 
