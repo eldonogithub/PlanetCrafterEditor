@@ -682,6 +682,8 @@ public class Window {
 						+ "Move in Y Direction only applies to visible Buildings / Items<br>"
 						+ "Instructions for functions are displayed in the menu bar<br>"
 						+ "Dialogs without [x] can be closed by clicking somewhere else<br>"
+						+ "Any functionality regarding Inventories might change their size.<br>"
+						+ "You can change their size back when you have emptied the inventories.<br>"
 						+ "<br>"
 						+ "Exported Save files are named [old file name]_modified_yyyy.MM.dd_HH-mm-ss.json<br>"
 						+ "You are supposed to change it to another name yourself to prevent accidental data loss.<br>"
