@@ -17,7 +17,7 @@ Features (V0.3):
 
 __Use this tool on your own risk__. Make backups of your save files ("C:\Users\\%Username%\AppData\LocalLow\MijuGames\Planet Crafter") before using this tool, eventhough there should not be any writing in any existing file.
 
-[Download the tool](./Compiled_Versions/PlanetCrafterEditorV0.3.jar) (and install Java (tested in Java 8u361)) and run it. The need for starting it via command line was removed.
+[Download the tool](https://github.com/mcnicki2002/PlanetCrafterEditor/raw/main/Compiled_Versions/PlanetCrafterEditorV0.3.jar) (and install Java (tested in Java 8u361)) and run it. The need for starting it via command line was removed.
 
 This Tool supports items from v0.7.006, but I have to get hold of the new map and the position of new loot crates. I will update them as soon as possible.
 
