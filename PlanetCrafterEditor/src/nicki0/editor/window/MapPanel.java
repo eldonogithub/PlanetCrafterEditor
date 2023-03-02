@@ -278,7 +278,7 @@ public class MapPanel extends JPanel {
 		if (nextClickEvent != showMoveBuildingP2OnNextClick) rectangleAtPosition = null;
 		if (rectangleAtPosition != null) {
 			Point mousePos = lastMousePosition;//this.getMousePosition();
-			if (mousePos != null) {System.out.println("ping");
+			if (mousePos != null) {
 				Point2D p = Map.getPositionFromCoordinates(rectangleAtPosition.x, rectangleAtPosition.y);
 				int hx = (int) (mapPosition.x + p.getX() * scale);
 				int hy = (int) (mapPosition.y + p.getY() * scale);

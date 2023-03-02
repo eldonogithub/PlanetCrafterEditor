@@ -205,7 +205,8 @@ public class EventsOnNextClick {
 				for (Item i : window.modify.getItemsFromLiID(nowClickedContainer.getId())) {
 					i.setLiId(lastClickedContainer.getId());
 				}
-				if (Main.debug) System.out.println("Container removed: " + window.modify.getContainerList().remove(nowClickedContainer));
+				boolean wasRemoved = window.modify.getContainerList().remove(nowClickedContainer);
+				if (Main.debug) System.out.println("Container removed: " + wasRemoved);
 				
 				lastClickedBuilding = null;
 				window.modify.reloadMaps();

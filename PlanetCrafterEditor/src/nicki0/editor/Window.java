@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -189,6 +190,10 @@ public class Window {
 		jMenuItem[MenuHELP][ItemHELP_OPENFOLDER].setText("Open save file Folder");
 		jMenuItem[MenuHELP][ItemHELP_UPDATE].setText("Update (currently " + Main.VERSIONEDITOR + ")");
 		jMenuItem[MenuHELP][ItemHELP_RECOMMENDEDMAP].setText("Open recommended Map for other Information");
+		
+		jMenuItem[MenuEDIT][ItemEDIT_INVSIZE].setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.ALT_DOWN_MASK));
+		jMenuItem[MenuEDIT][ItemEDIT_CONNECTINVS].setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_C, InputEvent.ALT_DOWN_MASK));
+		jMenuItem[MenuEDIT][ItemEDIT_MOVEBUILDINGS].setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Y, InputEvent.ALT_DOWN_MASK));
 		
 		currentActionAdvise = new JLabel();
 		
