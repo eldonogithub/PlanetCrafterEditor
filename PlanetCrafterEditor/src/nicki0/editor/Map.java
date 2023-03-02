@@ -21,9 +21,12 @@ public class Map {
 	private static String[] pictureMapStrings = {"map/DRY4k.png", "map/WET4k.png"};
 	public static BufferedImage pictureCave = Picture.loadPicture("map/CAVE4k.png");
 	public static List<BufferedImage> pictureMap = Picture.loadPicture(pictureMapStrings);
-	private static Point2D.Double pixel0 = new Point2D.Double(2514.0,2517.0);
-	private static Point2D.Double pixelA = new Point2D.Double(669.0,1147.0);
-	private static Point2D.Double coordA = new Point2D.Double(2202.036,1635.441);
+	private static Point2D.Double pixel0 = new Point2D.Double(2477.0,2478.0);//v0.7.007
+	private static Point2D.Double pixelA = new Point2D.Double(659.0,1127.0);//v0.7.007
+	private static Point2D.Double coordA = new Point2D.Double(2202.036,1635.441);//v0.7.007
+	//private static Point2D.Double pixel0 = new Point2D.Double(2514.0,2517.0);//v0.6.008
+	//private static Point2D.Double pixelA = new Point2D.Double(669.0,1147.0);//v0.6.008
+	//private static Point2D.Double coordA = new Point2D.Double(2202.036,1635.441);//v0.6.008
 	
 	// large map (path changed)
 	/*private static java.io.File[] pictureMapStrings = {new java.io.File("C:\\Users\\\\Desktop\\planetcraftermap\\DRY.png"), new java.io.File("C:\\Users\\\\Desktop\\planetcraftermap\\WET.png")};

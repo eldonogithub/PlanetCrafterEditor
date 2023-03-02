@@ -8,10 +8,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Main {
-	public static final String VERSIONGAME = "v0.6.008";
-	public static final String VERSIONEDITOR = "V0.3";
+	public static final String VERSIONGAME = "v0.7.007";
+	public static final String VERSIONEDITOR = "V0.3.1";
 	public static final boolean debug = false;
 	/**
+	 * Version 0.3.1
+	 * 0.7 loot crates
+	 * 
 	 * Version 0.3
 	 * ZOOM
 	 * Higher Picture Quality
@@ -62,10 +65,10 @@ public class Main {
 	
 	private Window window;
 	private Modify modify;
-	private ParallelThread loadingThread;
+	//private ParallelThread loadingThread;
 	public Main() {
-		loadingThread = new ParallelThread();
-		loadingThread.start();
+		//loadingThread = new ParallelThread();
+		//loadingThread.start();
 		
 		window = new Window(this);
 		window.showFileChooser();

@@ -97,8 +97,8 @@ public class Window {
 	
 	private static final int MenuCHECK = 2;
 	private static final int ItemCHECK_DOUBLEITEM = 0;
-	//private static final int ItemCHECK_MISSINGCONTAINER = 1;
 	private static final int ItemCHECK_AREIDSUNIQUE = 1;
+	//private static final int ItemCHECK_MISSINGCONTAINER = 2;
 	private static final int MenuCHECK_COUNT = 2;
 	
 	private static final int MenuEDIT = 3;
@@ -171,8 +171,8 @@ public class Window {
 		
 		jMenu[MenuCHECK].setText("Check");
 		jMenuItem[MenuCHECK][ItemCHECK_DOUBLEITEM].setText("Check for doubled Inventory entries of Items");
-		//jMenuItem[MenuCHECK][ItemCHECK_MISSINGCONTAINER].setText("Check for missing containers for inventories");
 		jMenuItem[MenuCHECK][ItemCHECK_AREIDSUNIQUE].setText("Check if all Item IDs are unique");
+		//jMenuItem[MenuCHECK][ItemCHECK_MISSINGCONTAINER].setText("Check for missing containers for inventories");
 		
 		jMenu[MenuEDIT].setText("Edit");
 		jMenuItem[MenuEDIT][ItemEDIT_INVSIZE].setText("Change Inventory Size");
@@ -487,7 +487,7 @@ public class Window {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				main.modify.testForInventoryWithoutContainer();
+				modify.testForInventoryWithoutContainer();
 			}
 		});*/
 		// Check if all Item IDs are unique

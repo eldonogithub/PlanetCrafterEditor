@@ -196,8 +196,8 @@ public class EventsOnNextClick {
 					JOptionPane.showMessageDialog(null, "Containers are already connected");
 					return;
 				}
-				int pressedButton = JOptionPane.showConfirmDialog(null, "Do you really want to connect these Inventories?", "Connect inventory " + clickedOnItem.getLiId() + " to " + lastClickedBuilding.getLiId(), JOptionPane.OK_CANCEL_OPTION);
-				if (pressedButton != JOptionPane.OK_OPTION) return;
+				//int pressedButton = JOptionPane.showConfirmDialog(null, "Do you really want to connect these Inventories?", "Connect inventory " + clickedOnItem.getLiId() + " to " + lastClickedBuilding.getLiId(), JOptionPane.OK_CANCEL_OPTION);
+				//if (pressedButton != JOptionPane.OK_OPTION) return;
 				
 				Container nowClickedContainer = clickedOnContainers.get(0);
 				lastClickedContainer.pushWoIds(nowClickedContainer.getWoIds());

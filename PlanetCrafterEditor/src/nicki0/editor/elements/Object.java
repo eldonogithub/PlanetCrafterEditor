@@ -810,7 +810,7 @@ public class Object {
 		return lst;
 	}
 	
-	public static final String lootCrateVersion = "v0.6.008"; // TODO Update version number and list
+	public static final String lootCrateVersion = "v0.7.008"; // TODO Update version number and list
 	public static final List<Item> allContainersInWorld = createAllContainersInWorldList();
 	public static final String LOOTCRATEGID = "_LootCrate"; // remember to change picture name
 	/**
@@ -992,6 +992,28 @@ public class Object {
 		aCiWL.add(new Item(109702771,"Container1",109702771,794.9f,150.1f,1097.1f,""));
 		aCiWL.add(new Item(109938271,"Container1",109938271,2078.6f,3.9f,-81.4f,""));
 		aCiWL.add(new Item(109981619,"Container1",109981619,267.9f,145.2f,1037.6f,""));
+		aCiWL.add(new Item(104853363,"Container1",104853363,1480.5f,25.5f,1357.8f,""));//v0.7.008
+		aCiWL.add(new Item(102708640,"Container1",102708640,1479.4f,24.8f,1364.4f,""));//v0.7.008
+		aCiWL.add(new Item(103171339,"Container1",103171339,1481.6f,27.6f,1343.6f,""));//v0.7.008
+		aCiWL.add(new Item(102191751,"Container1",102191751,1483.4f,27.1f,1341.9f,""));//v0.7.008
+		aCiWL.add(new Item(101518049,"Container1",101518049,1472.8f,21.3f,1342.1f,""));//v0.7.008
+		aCiWL.add(new Item(105920105,"Container1",105920105,-986.0f,90.6f,478.7f,""));//v0.7.008
+		aCiWL.add(new Item(104061574,"Container1",104061574,-977.9f,90.6f,475.1f,""));//v0.7.008
+		aCiWL.add(new Item(107545812,"Container1",107545812,-778.3f,163.1f,540.0f,""));//v0.7.008
+		aCiWL.add(new Item(108797889,"Container1",108797889,-1063.4f,60.7f,308.4f,""));//v0.7.008
+		aCiWL.add(new Item(106762679,"Container1",106762679,-1253.7f,35.3f,521.9f,""));//v0.7.008
+		aCiWL.add(new Item(108493457,"Container1",108493457,-1357.8f,86.8f,450.9f,""));//v0.7.008
+		aCiWL.add(new Item(103467708,"Container1",103467708,-1365.0f,85.9f,450.1f,""));//v0.7.008
+		aCiWL.add(new Item(105919606,"Container1",105919606,-1361.7f,84.6f,414.8f,""));//v0.7.008
+		aCiWL.add(new Item(104650555,"Container1",104650555,-1404.7f,83.4f,447.4f,""));//v0.7.008
+		aCiWL.add(new Item(109823677,"Container1",109823677,-1402.8f,83.4f,448.4f,""));//v0.7.008
+		aCiWL.add(new Item(108658830,"Container1",108658830,-1389.3f,96.6f,470.3f,""));//v0.7.008
+		aCiWL.add(new Item(101853424,"Container1",101853424,-1388.3f,97.3f,472.0f,""));//v0.7.008
+		aCiWL.add(new Item(103457908,"Container1",103457908,-1397.7f,95.3f,451.5f,""));//v0.7.008
+		aCiWL.add(new Item(101624588,"Container1",101624588,-1368.2f,96.0f,434.7f,""));//v0.7.008
+		aCiWL.add(new Item(105198800,"Container1",105198800,-1365.1f,95.9f,429.8f,""));//v0.7.008
+		aCiWL.add(new Item(101267009,"Container1",101267009,-1359.1f,96.4f,432.9f,""));//v0.7.008
+		aCiWL.add(new Item(102330057,"Container1",102330057,-1349.2f,96.7f,424.5f,""));//v0.7.008
 		aCiWL.add(new Item(101055579,"Container2",101055579,1130.4f,8.8f,2355.6f,""));
 		aCiWL.add(new Item(102242710,"Container2",102242710,1094.9f,10.0f,2383.5f,""));
 		aCiWL.add(new Item(103406983,"Container2",103406983,-592.8f,75.6f,1557.3f,""));
@@ -1004,6 +1026,8 @@ public class Object {
 		aCiWL.add(new Item(108189029,"Container2",108189029,1130.7f,8.8f,2356.4f,""));
 		aCiWL.add(new Item(109235737,"Container2",109235737,1608.1f,72.8f,-618.9f,""));
 		aCiWL.add(new Item(109709359,"Container2",109709359,-332.7f,11.4f,-690.5f,""));
+		aCiWL.add(new Item(105362096,"Container2",105362096,-1381.9f,81.0f,392.7f,""));//v0.7.008
+		aCiWL.add(new Item(105549205,"Container2",105549205,-1368.4f,93.5f,404.1f,""));//v0.7.008
 		aCiWL.add(new Item(101293320,"GoldenContainer",101293320,926.4f,86.2f,-775.4f,""));
 		aCiWL.add(new Item(101896178,"GoldenContainer",101896178,1100.0f,124.5f,2934.9f,""));
 		aCiWL.add(new Item(102281766,"GoldenContainer",102281766,2156.1f,3.4f,242.3f,""));
@@ -1021,6 +1045,9 @@ public class Object {
 		aCiWL.add(new Item(106960229,"GoldenContainer",106960229,293.0f,162.6f,1005.7f,""));
 		aCiWL.add(new Item(107183786,"GoldenContainer",107183786,-141.9f,180.7f,783.8f,""));
 		aCiWL.add(new Item(108243927,"GoldenContainer",108243927,1480.9f,14.1f,647.9f,""));
+		aCiWL.add(new Item(105502699,"GoldenContainer",105502699,-584.6f,53.3f,99.7f,""));//v0.7.008
+		aCiWL.add(new Item(106354955,"GoldenContainer",106354955,-854.2f,285.1f,594.8f,""));//v0.7.008
+		aCiWL.add(new Item(108228777,"GoldenContainer",108228777,-977.8f,46.3f,645.7f,""));//v0.7.008
 		aCiWL.add(new Item(105873881,"Vegetube1",105873881,-297.8f,34.5f,-677.6f,""));
 		aCiWL.add(new Item(101045324,"canister",101045324,1481.0f,10.6f,1357.9f,""));
 		aCiWL.add(new Item(101182048,"canister",101182048,221.6f,140.3f,1059.5f,""));
@@ -1035,6 +1062,8 @@ public class Object {
 		aCiWL.add(new Item(107682618,"canister",107682618,1101.3f,17.3f,693.7f,""));
 		aCiWL.add(new Item(108250279,"canister",108250279,1497.2f,51.3f,575.9f,""));
 		aCiWL.add(new Item(109699456,"canister",109699456,1601.4f,68.0f,-658.5f,""));
+		aCiWL.add(new Item(109126245,"canister",109126245,-1373.3f,95.4f,440.5f,""));//v0.7.008
+		aCiWL.add(new Item(101026560,"canister",101026560,-1389.9f,80.9f,403.6f,""));//v0.7.008
 		aCiWL.add(new Item(101046169,"wreckpilar",101046169,1083.7f,63.5f,1922.8f,"Satellite"));
 		aCiWL.add(new Item(103919282,"wreckpilar",103919282,928.6f,40.5f,-579.4f,"Satellite"));
 		return aCiWL;
