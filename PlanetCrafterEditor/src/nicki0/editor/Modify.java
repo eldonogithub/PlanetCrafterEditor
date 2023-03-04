@@ -34,6 +34,8 @@ public class Modify {
 	private Settings settings;
 	private Light light;
 	
+	private List<String> additionalLinesList;
+	
 	private Map<Long, Item> idItemMap;
 	private Map<Long, Container> idContainerMap;
 	private Map<Long, List<Item>> liIdItemMap;
@@ -51,7 +53,7 @@ public class Modify {
 	
 	private List<Item> notLootedCratesInWorld = null;
 
-	public Modify(Ti pTi, PlayerAttributes pPlayerAttributes, List<Item> pItemList, List<Container> pContainerList, Statistics pStatistics, List<Message> pMessageList, List<StoryEvent> pStoryEventList, Settings pSettings, Light pLight) {
+	public Modify(Ti pTi, PlayerAttributes pPlayerAttributes, List<Item> pItemList, List<Container> pContainerList, Statistics pStatistics, List<Message> pMessageList, List<StoryEvent> pStoryEventList, Settings pSettings, Light pLight, List<String> pAdditionalLinesList) {
 		ti = pTi;
 		playerAttributes = pPlayerAttributes;
 		itemList = pItemList;
@@ -61,6 +63,8 @@ public class Modify {
 		storyEventList = pStoryEventList;
 		settings = pSettings;
 		light = pLight;
+		
+		additionalLinesList = pAdditionalLinesList;
 		
 		reloadMaps();
 		reloadPreSearchedContainers();
@@ -154,7 +158,7 @@ public class Modify {
 		+ "\r@\r" + formatListStoryEvent(storyEventList)
 		+ "\r@\r" + settings.toString()
 		+ "\r@\r" + light.toString()
-		+ "\r@";
+		+ "\r@" + additionalLinesList.stream().collect(Collectors.joining("\r@\r", "\r", ""));
 	}
 	private String formatListItem(List<Item> list) {
 		return list.stream().map(Item::toString).collect(Collectors.joining("|\n", "", ""));

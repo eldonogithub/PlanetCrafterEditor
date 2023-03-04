@@ -34,6 +34,8 @@ public class SaveLoader {
 	private Settings settings;
 	private Light light;
 	
+	private List<String> additionalLinesList = new ArrayList<String>();
+	
 	public SaveLoader() {}
 	public SaveLoader(File pFile) {
 		assert pFile != null;
@@ -42,9 +44,6 @@ public class SaveLoader {
 	}
 	private void read() {
 		String wholeFileString = "";
-		/*try {
-			wholeFileString = Files.readString(Path.of(file.getPath()));
-		} catch (IOException e) {e.printStackTrace();}*/
 		StringBuilder sb = new StringBuilder();
 		try {
 			Files.lines(Paths.get(file.getPath())).forEach(s -> sb.append(s));
@@ -53,13 +52,13 @@ public class SaveLoader {
 		}
 		wholeFileString = sb.toString();
 		
-		//wholeFileString = wholeFileString.replaceAll("[\r\n]", "");
-		
 		String[] allSections = wholeFileString.split("@", -1);
-		//for (int i = 0; i < allSections.length; i++) System.out.println(i + ": " + allSections[i]);
-		assert allSections.length == 10 : "Number of Sections 10 != " + allSections.length;
+		
+		int amountOfSensibleSections = 9;
+		assert allSections.length > amountOfSensibleSections : "Number of Sections: 10 > " + allSections.length;
 		for (int sectionNumber = 0; sectionNumber < allSections.length; sectionNumber++) {
-			List<Map<String, String>> splittedSection = readSection(allSections[sectionNumber]);
+			List<Map<String, String>> splittedSection = ((sectionNumber < amountOfSensibleSections)?readSection(allSections[sectionNumber]):new ArrayList<>());
+			
 			// Load data in correct vars
 			Map<String, String> m; // map for every Line
 			switch (sectionNumber) {
@@ -68,28 +67,60 @@ public class SaveLoader {
 				if (allSections[sectionNumber].equalsIgnoreCase("")) {ti = new Ti(); break;}
 				assert splittedSection.size() == 1;
 				m = splittedSection.get(0);
-				ti = new Ti(m.get("unitOxygenLevel"), m.get("unitHeatLevel"), m.get("unitPressureLevel"), m.get("unitPlantsLevel"), m.get("unitInsectsLevel"), m.get("unitAnimalsLevel"));
+				ti = new Ti(
+						m.getOrDefault("unitOxygenLevel", "0.0"), 
+						m.getOrDefault("unitHeatLevel", "0.0"), 
+						m.getOrDefault("unitPressureLevel", "0.0"), 
+						m.getOrDefault("unitPlantsLevel", "0.0"), 
+						m.getOrDefault("unitInsectsLevel", "0.0"), 
+						m.getOrDefault("unitAnimalsLevel", "0.0")
+						);
 				break;
 			// playerAttributes;
 			case 1:
 				if (allSections[sectionNumber].equalsIgnoreCase("")) {playerAttributes = new PlayerAttributes(); break;}
 				assert splittedSection.size() == 1;
 				m = splittedSection.get(0);
-				List<Double> pos = splitDouble(m.get("playerPosition"));
-				List<Double> rot = splitDouble(m.get("playerRotation"));
-				playerAttributes = new PlayerAttributes(pos.get(0).floatValue(), pos.get(1).floatValue(), pos.get(2).floatValue(), 
-						rot.get(0).floatValue(), rot.get(1).floatValue(), rot.get(2).floatValue(), rot.get(3).floatValue(), 
-						splitList(m.get("unlockedGroups")), Double.parseDouble(m.get("playerGaugeOxygen")), Double.parseDouble(m.get("playerGaugeThirst")), Double.parseDouble(m.get("playerGaugeHealth")));
+				List<Double> pos = splitDouble(m.getOrDefault("playerPosition", "414,18,585"));
+				List<Double> rot = splitDouble(m.getOrDefault("playerRotation", "0,0,0,1"));
+				playerAttributes = new PlayerAttributes(
+						pos.get(0).floatValue(), 
+						pos.get(1).floatValue(), 
+						pos.get(2).floatValue(), 
+						rot.get(0).floatValue(), 
+						rot.get(1).floatValue(), 
+						rot.get(2).floatValue(), 
+						rot.get(3).floatValue(), 
+						splitList(m.getOrDefault("unlockedGroups", "")), 
+						Double.parseDouble(m.getOrDefault("playerGaugeOxygen", "100.0")), 
+						Double.parseDouble(m.getOrDefault("playerGaugeThirst", "100.0")),
+						Double.parseDouble(m.getOrDefault("playerGaugeHealth", "100.0"))
+						);
 				break;
 			// itemList
 			case 2:
 				if (allSections[sectionNumber].equalsIgnoreCase("")) {break;}
 				for (Map<String, String> mp : splittedSection) {
-					List<Double> ps = splitDouble(mp.get("pos"));
-					List<Double> rt = splitDouble(mp.get("rot"));
-					itemList.add(new Item(Long.parseLong(mp.get("id")), mp.get("gId"), Long.parseLong(mp.get("liId")), mp.get("liGrps"),
-							ps.get(0).floatValue(), ps.get(1).floatValue(), ps.get(2).floatValue(), rt.get(0).floatValue(), rt.get(1).floatValue(), rt.get(2).floatValue(), rt.get(3).floatValue(),
-							Long.parseLong(mp.get("wear")), splitIntegerArr(mp.get("pnls")), mp.get("color"), mp.get("text"), Integer.parseInt(mp.get("grwth"))));
+					List<Double> ps = splitDouble(mp.getOrDefault("pos", "0,0,0"));
+					List<Double> rt = splitDouble(mp.getOrDefault("rot", "0,0,0,0"));
+					itemList.add(new Item(
+							Long.parseLong(mp.get("id")), 
+							mp.get("gId"), 
+							Long.parseLong(mp.getOrDefault("liId", "0")), 
+							mp.getOrDefault("liGrps", ""),
+							ps.get(0).floatValue(), 
+							ps.get(1).floatValue(), 
+							ps.get(2).floatValue(), 
+							rt.get(0).floatValue(), 
+							rt.get(1).floatValue(), 
+							rt.get(2).floatValue(), 
+							rt.get(3).floatValue(),
+							Long.parseLong(mp.getOrDefault("wear", "0")), 
+							splitIntegerArr(mp.getOrDefault("pnls", "")), 
+							mp.getOrDefault("color", ""), 
+							mp.getOrDefault("text", ""), 
+							Integer.parseInt(mp.getOrDefault("grwth", "0"))
+							));
 				}
 				break;
 			// containerList
@@ -102,7 +133,14 @@ public class SaveLoader {
 						demandGrps = splitList(mp.get("demandGrps"));
 						supplyGrps = splitList(mp.get("supplyGrps"));
 					}
-					containerList.add(new Container(Long.parseLong(mp.get("id")), splitLong(mp.get("woIds")), Integer.parseInt(mp.get("size")), demandGrps, supplyGrps, Long.parseLong(mp.getOrDefault("priority", "0"))));
+					containerList.add(new Container(
+							Long.parseLong(mp.get("id")), 
+							splitLong(mp.getOrDefault("woIds", "")), 
+							Integer.parseInt(mp.getOrDefault("size", "35")), 
+							demandGrps, 
+							supplyGrps, 
+							Long.parseLong(mp.getOrDefault("priority", "0"))
+							));
 				}
 				break;
 			// statistics;
@@ -110,20 +148,29 @@ public class SaveLoader {
 				if (allSections[sectionNumber].equalsIgnoreCase("")) {statistics = new Statistics(); break;}
 				assert splittedSection.size() == 1;
 				m = splittedSection.get(0);
-				statistics = new Statistics(Integer.parseInt(m.get("craftedObjects")), Integer.parseInt(m.get("totalSaveFileLoad")), Integer.parseInt(m.get("totalSaveFileTime")));
+				statistics = new Statistics(Integer.parseInt(
+						m.getOrDefault("craftedObjects", "0")), 
+						Integer.parseInt(m.getOrDefault("totalSaveFileLoad", "0")), 
+						Integer.parseInt(m.getOrDefault("totalSaveFileTime", "0"))
+						);
 				break;
 			// messageList
 			case 5:
 				if (allSections[sectionNumber].equalsIgnoreCase("")) {break;}
 				for (Map<String, String> mp : splittedSection) {
-					messageList.add(new Message(mp.get("stringId"), Boolean.parseBoolean(mp.get("isRead"))));
+					messageList.add(new Message(
+							mp.get("stringId"), 
+							Boolean.parseBoolean(mp.get("isRead"))
+							));
 				}
 				break;
 			// storyEventList
 			case 6:
 				if (allSections[sectionNumber].equalsIgnoreCase("")) {break;}
 				for (Map<String, String> mp : splittedSection) {
-					storyEventList.add(new StoryEvent(mp.get("stringId")));
+					storyEventList.add(new StoryEvent(
+							mp.get("stringId")
+							));
 				}
 				break;
 			// settings;
@@ -131,17 +178,31 @@ public class SaveLoader {
 				if (allSections[sectionNumber].equalsIgnoreCase("")) {settings = new Settings(); break;}
 				assert splittedSection.size() == 1;
 				m = splittedSection.get(0);
-				settings = new Settings(m.get("mode"), Boolean.parseBoolean(m.get("hasPlayedIntro")));
+				settings = new Settings(
+						m.getOrDefault("mode", "Standard"), 
+						Boolean.parseBoolean(m.getOrDefault("hasPlayedIntro", "false"))
+						);
 				break;
 			// light;
 			case 8:
 				light = new Light(allSections[sectionNumber].replaceAll("\\|", "\\|\n"));
 				break;
-			// last area - not used (yet)
+			// for next lines without
+			case 20:
+			case 19:
+			case 18:
+			case 17:
+			case 16:
+			case 15:
+			case 14:
+			case 13:
+			case 12:
+			case 11:
+			case 10:
 			case 9:
+				additionalLinesList.add(allSections[sectionNumber].replaceAll("\\|", "\\|\n"));
 				break;
 			}
-			
 		}
 	}
 	private List<Map<String, String>> readSection(String wholeSection) {
@@ -149,7 +210,10 @@ public class SaveLoader {
 		List<Map<String, String>> allLinesList = new ArrayList<Map<String, String>>();
 		
 		//remove first { and last } 
-		if (wholeSection.startsWith("{") && wholeSection.endsWith("}")) wholeSection = wholeSection.substring(1, wholeSection.length()-1);
+		if (wholeSection.startsWith("{") && wholeSection.endsWith("}")) {
+			// section is probably JSON...
+			wholeSection = wholeSection.substring(1, wholeSection.length()-1);
+		}
 		
 		String[] allLines = wholeSection.split("\\}\\|\\{");
 		
@@ -163,8 +227,10 @@ public class SaveLoader {
 		assert wholeLine != null;
 		Map<String, String> lineMap = new HashMap<String, String>();
 		
-		// split al ," because every " in a ingame text is a \" and every new keyword starts with a "
+		// split at ," because every " in a ingame text is a \" and every new keyword starts with a "
 		wholeLine = wholeLine.replaceAll(",\"", "|\"");
+		if (wholeLine.contains("|\"|\"")) wholeLine = wholeLine.replaceAll("\\|\"\\|\"", ",\"|\"");
+		
 		String[] allKeys = wholeLine.split("\\|");
 		
 		for (int keyNumber = 0; keyNumber < allKeys.length; keyNumber++) {
@@ -318,4 +384,8 @@ public class SaveLoader {
 	public List<StoryEvent> getStoryEvents() {return storyEventList;}
 	public Settings getSettings() {return settings;}
 	public Light getLight() {return light;}
+	
+	public List<String> getAdditionalLinesList() {
+		return additionalLinesList;
+	}
 }

@@ -273,9 +273,9 @@ public class Object {
 		result.put("Phytoplankton1", "Phytoplankton A");
 		result.put("Phytoplankton2", "Phytoplankton B");
 		result.put("Phytoplankton3", "Phytoplankton C");
-		result.put("Phytoplankton4", "Phytoplankton D");
+		//result.put("Phytoplankton4", "Phytoplankton D");
 		result.put("Pod4x", "Big living compartment");
-		result.put("PulsarChip", "PulsarChip");
+		result.put("PulsarChip", "Pulsar Chip");
 		result.put("PulsarQuartz", "Pulsar Quartz");
 		result.put("PulsarShard", "Pulsar Quartz Shard");
 		result.put("RecyclingMachine", "Recycling machine");
@@ -600,11 +600,11 @@ public class Object {
 		result.put("Phytoplankton1", TypeITEM);
 		result.put("Phytoplankton2", TypeITEM);
 		result.put("Phytoplankton3", TypeITEM);
-		result.put("Phytoplankton4", TypeITEM);
+		//result.put("Phytoplankton4", TypeITEM);
 		result.put("Pod4x", TypeBUILDING);
-		result.put("PulsarChip", TypeITEM);
+		result.put("PulsarChip", TypeNONE);
 		result.put("PulsarQuartz", TypeITEM);
-		result.put("PulsarShard", TypeITEM);
+		result.put("PulsarShard", TypeNONE);
 		result.put("RecyclingMachine", TypeBUILDING);
 		result.put("RedPowder1", TypeITEM);
 		result.put("RocketBiomass1", TypeROCKET);
@@ -1079,7 +1079,7 @@ public class Object {
 		map.put("SilkGenerator", Arrays.asList("Silk"));
 		//map.put("WaterCollector1", Arrays.asList("WaterBottle1")); // vllt. für Spieler als Trinkquelle... 
 		map.put("WaterCollector2", Arrays.asList("WaterBottle1"));
-		map.put("WaterLifeCollector1", Arrays.asList("Phytoplankton1","Phytoplankton2","Phytoplankton3","Phytoplankton4"));
+		map.put("WaterLifeCollector1", Arrays.asList("Phytoplankton1","Phytoplankton2","Phytoplankton3"));
 		
 		return map;
 	}

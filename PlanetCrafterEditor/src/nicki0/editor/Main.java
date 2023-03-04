@@ -8,10 +8,15 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class Main {
-	public static final String VERSIONGAME = "v0.7.007";
-	public static final String VERSIONEDITOR = "V0.3.1";
+	public static final String VERSIONGAME = "v0.7.008";
+	public static final String VERSIONEDITOR = "V0.3.2";
 	public static final boolean debug = false;
 	/**
+	 * Version 0.3.2
+	 * bug with ,"," solved
+	 * slimmed save files (https://github.com/akarnokd/ThePlanetCrafterMods#perf-reduce-save-size) can be loaded.
+	 * removed unobtainable items from cheat menu
+	 * 
 	 * Version 0.3.1
 	 * 0.7 loot crates
 	 * 
@@ -45,6 +50,10 @@ public class Main {
 	 */
 	/* TODO
 	 * (In German... sorry)
+	 * TODO additional sections afer @ in another variable to support mods
+	 * TODO ," beim splitten einer Zeile funktioniert nicht, falls , am Ende des Textes steht
+	 * TODO Standardwerte bei nicht vorhandenen Einträgen einfügen
+	 * 
 	 * TODO Info / Control
 	 * TODO update map to v0.7.x
 	 * TODO Autocrafter (inkubatoren) supply hinzufügen: was die gerade bauen
@@ -75,7 +84,7 @@ public class Main {
 		long timeStamp = System.currentTimeMillis();
 		SaveLoader saveLoader = new SaveLoader(window.getSelectedFile());
 		if (debug) System.out.println("Loadtime for save: " + (System.currentTimeMillis() - timeStamp) + "ms");
-		modify = new Modify(saveLoader.getTi(), saveLoader.getPlayerAttributes(), saveLoader.getItems(), saveLoader.getContainer(), saveLoader.getStatistics(), saveLoader.getMessages(), saveLoader.getStoryEvents(), saveLoader.getSettings(), saveLoader.getLight());
+		modify = new Modify(saveLoader.getTi(), saveLoader.getPlayerAttributes(), saveLoader.getItems(), saveLoader.getContainer(), saveLoader.getStatistics(), saveLoader.getMessages(), saveLoader.getStoryEvents(), saveLoader.getSettings(), saveLoader.getLight(), saveLoader.getAdditionalLinesList());
 		window.setModify(modify);
 		
 		window.show();
@@ -97,6 +106,9 @@ public class Main {
 			
 			long timeNeeded = System.currentTimeMillis();
 			String newSaveFileContent = modify.buildString();
+			
+			if (newSaveFileContent.endsWith("\r")) newSaveFileContent = newSaveFileContent.substring(0, newSaveFileContent.length()-1);
+				
 			if (debug) System.out.println("Done building String in " + (System.currentTimeMillis() - timeNeeded) + "ms");
 			
 			writer.write(newSaveFileContent);
